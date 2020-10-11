@@ -26,7 +26,8 @@ class Trainer:
             x_array, t_array = chainer.dataset.concat_examples(batch)
             x = chainer.Variable(cuda.to_gpu(x_array[:, None, None, :]))
             t = chainer.Variable(cuda.to_gpu(t_array))
-            self.optimizer.zero_grads()
+            #self.optimizer.zero_grads()
+            self.model.cleargrads()
             y = self.model(x)
             if self.opt.BC:
                 loss = utils.kl_divergence(y, t)
@@ -63,8 +64,10 @@ class Trainer:
             x_array, t_array = chainer.dataset.concat_examples(batch)
             if self.opt.nCrops > 1:
                 x_array = x_array.reshape((x_array.shape[0] * self.opt.nCrops, x_array.shape[2]))
-            x = chainer.Variable(cuda.to_gpu(x_array[:, None, None, :]), volatile=True)
-            t = chainer.Variable(cuda.to_gpu(t_array), volatile=True)
+            #x = chainer.Variable(cuda.to_gpu(x_array[:, None, None, :]), volatile=True)
+            #t = chainer.Variable(cuda.to_gpu(t_array), volatile=True)
+            x = chainer.Variable(cuda.to_gpu(x_array[:, None, None, :]))
+            t = chainer.Variable(cuda.to_gpu(t_array))
             y = F.softmax(self.model(x))
             y = F.reshape(y, (y.shape[0] // self.opt.nCrops, self.opt.nCrops, y.shape[1]))
             y = F.mean(y, axis=1)

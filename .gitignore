@@ -1,8 +1,9 @@
 ### Python ###
-# Byte-compiled / optimized / DLL files
+1;4205;0c# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
+on/
+create_datasets/
 ### PyCharm ###
 \.idea/
